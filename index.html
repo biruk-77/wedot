@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>we. | Architecting the Future</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Three.js (for background particles & hero interactive sphere) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Google Model Viewer (for GLB rendering and interactions) -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+<body>
+
+    <!-- Background Canvas for Interactive Particle Grid -->
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- Header / Navigation -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo" translate="no">we<span class="dot">.</span></a>
+            <nav>
+                <a href="#about">Mission</a>
+                <a href="#showroom">3D Showroom</a>
+                <a href="#services">Capabilities</a>
+                <a href="#contact" class="btn-primary">Connect</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="badge">Next-Gen Tech Studio</div>
+            <h1>We dot the <span class="gradient-text">connections</span> between imagination and code.</h1>
+            <p>A full-stack, design-first development firm building high-performance mobile, web, and spatial computing applications.</p>
+            <div class="hero-actions">
+                <a href="#showroom" class="btn-primary">Explore 3D Lab</a>
+                <a href="#contact" class="btn-secondary">Get in Touch</a>
+            </div>
+        </div>
+        <div class="hero-graphics">
+            <!-- Interactivity placeholder that blends with the Three.js canvas behind it -->
+            <div class="glowing-orb"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="section-header">
+            <h2>Our Core Philosophies</h2>
+            <p>How we approach engineering, product development, and architectural design.</p>
+        </div>
+        <div class="grid-container">
+            <div class="card glass-card">
+                <div class="card-icon">⚡</div>
+                <h3>High-Leverage Dev</h3>
+                <p>We build production systems using cross-platform architectures (Flutter, Node.js) that scale from day one.</p>
+            </div>
+            <div class="card glass-card">
+                <div class="card-icon">💎</div>
+                <h3>Pixel Perfection</h3>
+                <p>We believe user experience is paramount. No standard templates—everything is custom-crafted to amaze.</p>
+            </div>
+            <div class="card glass-card">
+                <div class="card-icon">🧠</div>
+                <h3>AI & Spatial Integrations</h3>
+                <p>Harnessing neural models, LLMs, and immersive 3D technology to solve next-generation computing problems.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3D Showroom Section -->
+    <section class="showroom" id="showroom">
+        <div class="section-header">
+            <h2>3D Lab & Showroom</h2>
+            <p>Interact with our custom luxury design asset, or drag and drop your own <b>.glb</b> file right into the screen to render it instantly!</p>
+        </div>
+        
+        <div class="showroom-container glass-card">
+            <!-- Drag and Drop / Selector Overlay -->
+            <div class="drop-zone" id="drop-zone">
+                <div class="drop-text">
+                    <span class="upload-icon">📦</span>
+                    <p>Drag & Drop your <b>.glb</b> model here or <span class="browse-link">click to browse</span></p>
+                    <input type="file" id="file-input" accept=".glb" style="display: none;">
+                </div>
+            </div>
+
+            <!-- Model Viewer Frame -->
+            <div class="model-frame">
+                <!-- Fallback stable model URL (Custom User GLB) -->
+                <model-viewer 
+                    id="showroom-viewer" 
+                    src="./office_model.glb"
+                    ios-src=""
+                    alt="Interactive 3D model"
+                    shadow-intensity="1.5"
+                    camera-controls
+                    auto-rotate
+                    rotation-per-second="15deg"
+                    interaction-prompt="auto"
+                    ar
+                    ar-modes="webxr scene-viewer quick-look">
+                    
+                    <!-- Pulsing Hotspot on top of the shelf -->
+                    <button class="hotspot" slot="hotspot-shelf" data-position="0.28 1.25 0.12" data-normal="0 1 0" data-visibility-attribute="visible">
+                        <div class="hotspot-annotation">
+                            <h4>we. Cloud Workstation</h4>
+                            <p>High-end terminal for cloud render pipeline and automated deployment control.</p>
+                        </div>
+                    </button>
+                    
+                    <!-- Pulsing Hotspot on the main desk surface -->
+                    <button class="hotspot" slot="hotspot-desk" data-position="-0.25 0.76 -0.1" data-normal="0 1 0" data-visibility-attribute="visible">
+                        <div class="hotspot-annotation">
+                            <h4>Local Dev Node</h4>
+                            <p>Multi-core compiler engine hosting Flutter and Node.js instances.</p>
+                        </div>
+                    </button>
+                    
+                    <!-- Progress Bar -->
+                    <div class="progress-bar" slot="progress-bar">
+                        <div class="update-bar"></div>
+                    </div>
+                </model-viewer>
+            </div>
+
+            <!-- 3D Controls Control Panel -->
+            <div class="viewer-controls">
+                <button id="toggle-rotate" class="control-btn active">Auto-Rotate</button>
+                <button id="reset-camera" class="control-btn">Reset View</button>
+                <button id="toggle-shadows" class="control-btn active">Shadows On</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services / Capabilities -->
+    <section class="services" id="services">
+        <div class="section-header">
+            <h2>Capabilities</h2>
+            <p>Technologies we deploy to take business ideas from zero to global deployment.</p>
+        </div>
+        <div class="services-list">
+            <div class="service-item glass-card">
+                <div class="service-meta">
+                    <span class="service-number">01</span>
+                    <h3>Mobile Apps</h3>
+                </div>
+                <p>Native-performance Android and iOS apps using Flutter. Features complex caching, state management, and real-time synchronization.</p>
+            </div>
+            <div class="service-item glass-card">
+                <div class="service-meta">
+                    <span class="service-number">02</span>
+                    <h3>Cloud Backends</h3>
+                </div>
+                <p>Scalable APIs built on Node.js/Express, Go, PostgreSQL, and MySQL. Implemented with strict JWT security and microservice communications.</p>
+            </div>
+            <div class="service-item glass-card">
+                <div class="service-meta">
+                    <span class="service-number">03</span>
+                    <h3>3D & Spatial Web</h3>
+                </div>
+                <p>WebXR, Three.js, and GLB integration. Providing high-fidelity interactive models directly in web applications with zero lag.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-container glass-card">
+            <div class="contact-info">
+                <h2>Let's build something epic.</h2>
+                <p>Ready to deploy high-leverage products? Get in touch with the we. engineering team.</p>
+                <div class="contact-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">📍</span>
+                        <span>Addis Ababa, Ethiopia (Global Delivery)</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">✉️</span>
+                        <span>engineering@wedot.co</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">📞</span>
+                        <span><a href="tel:+251928211778" style="color: inherit; text-decoration: none;">+251 928 211 778</a></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">💼</span>
+                        <span><a href="https://linkedin.com/in/biruk-zewde-3b49a33a5/" target="_blank" style="color: inherit; text-decoration: underline; text-underline-offset: 4px;">linkedin.com/in/biruk-zewde</a></span>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form-container">
+                <form id="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="name" required placeholder=" ">
+                        <label for="name">Your Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" required placeholder=" ">
+                        <label for="email">Email Address</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" required rows="4" placeholder=" "></textarea>
+                        <label for="message">Project Details</label>
+                    </div>
+                    <button type="submit" class="btn-primary form-submit">Send Message 🚀</button>
+                </form>
+                <div id="form-success" class="form-success-msg">Message sent successfully! We'll get back to you shortly.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2026 we. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="https://github.com/abyssiniasoftware" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="app.js"></script>
+</body>
+</html>
